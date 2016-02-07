@@ -26,6 +26,22 @@ hist(sumstep$steps, seq(0,25000,l=101), las=2, xlab="Steps per Day",
 
 ![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)
 
+```r
+# create bar chart of mean of the steps per day
+meanstep <- aggregate(steps~date, data = act, mean)
+barplot(meanstep$steps, names.arg =meanstep$date, main="Mean Number of Steps per Day" ,las=2, cex.names = 0.85)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-2.png)
+
+```r
+# create bar chart of median of the steps per day
+medianstep <- aggregate(steps~date, data = act, median)
+barplot(medianstep$steps, names.arg =medianstep$date, main="Median Number of Steps per Day" ,las=2, cex.names = 0.85)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-3.png)
+
 ## What is the average daily activity pattern? 
 
 ```r
