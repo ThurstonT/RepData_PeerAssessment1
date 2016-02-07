@@ -1,14 +1,10 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
-```{r}
+
+```r
 # set working directory
 setwd("C:/Coursera/data")
 # testing
@@ -16,7 +12,8 @@ act <- read.csv("activity.csv", sep = ",", stringsAsFactors = FALSE)
 ```
 
 ## What is mean total number of steps taken per day?  
-```{r echo=TRUE}
+
+```r
 # Calculate the total number of steps taken per day
 
 sumstep <- aggregate(steps~date, data = act, sum)
@@ -27,26 +24,45 @@ hist(sumstep$steps, seq(0,25000,l=101), las=2, xlab="Steps per Day",
      main="Histogram of Steps per day with NA")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)
+
 ## What is the average daily activity pattern? 
-```{r}
+
+```r
 act1 <- aggregate(steps~interval, data=act,mean, na.rm=TRUE)
 plot(act1$interval , act1$steps, xlab="5 Minute Interval", ylab="Average Steps",
      main="Time Series Plot of Mean Number of Steps Taken at 5 Minute Intervals", type ="l")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)
+
+```r
 #Which 5-minute interval, on average across all the days in the dataset, 
 #contains the maximum number of steps?
 j <- subset(act1, act1$steps == max(act1$steps, na.rm = TRUE))
 print(paste("Across all of the days, interval",j[1],"has the maxium number of setps" ))
 ```
 
+```
+## [1] "Across all of the days, interval 835 has the maxium number of setps"
+```
+
 
 ## Imputing missing values
-```{r}
+
+```r
 # Calculate and report the total number of missing values in the dataset 
 # (i.e. the total number of rows with NAs)
 tna <- act[is.na(act$steps),]
 cnt_of_NA <- dim(tna)
 print(paste("There are",cnt_of_NA[1],"rows that are missing data in the data set"))
+```
 
+```
+## [1] "There are 2304 rows that are missing data in the data set"
+```
+
+```r
 ##########################################################################################
 # fill in missing values
 # Devise a strategy for filling in all of the missing values in the dataset. 
@@ -83,7 +99,11 @@ sumstep <- aggregate(steps~date, data = actn, sum)
 # create a histogram of the total # of steps taken each day
 hist(sumstep$steps,  breaks=seq(0,25000,l=101),  las=2,  xlab="Steps per Day",
      main="Histogram of Steps per day with Mean replacing NA" )
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)
+
+```r
 #draw comparison chart
 par(mfrow = c(2, 1) )
 sumstep <- aggregate(steps~date, data = act, sum)
@@ -95,6 +115,11 @@ sumstep <- aggregate(steps~date, data = actn, sum)
 # create a histogram of the total # of steps taken each day
 hist(sumstep$steps, seq(0,25000,l=101),  las=2,  xlab="Steps per Day", 
      main="Histogram of Steps per day with Mean replacing NA" )
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-2.png)
+
+```r
 # return the display to normal
 par(mfrow = c(1, 1) )
 
@@ -102,16 +127,22 @@ par(mfrow = c(1, 1) )
 meanstep <- aggregate(steps~date, data = actn, mean)
 barplot(meanstep$steps, names.arg =meanstep$date, 
         main="Mean Number of Steps per Day",las=2, cex.names = 0.50)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-3.png)
+
+```r
 # create bar chart of median of the steps per day
 medianstep <- aggregate(steps~date, data = actn, median)
 barplot(medianstep$steps, names.arg =medianstep$date, main="Median Number of Steps per Day", las=2, cex.names = 0.50)
-
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-4.png)
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
 
+```r
 ################################################################################
 ##  Weekdays and Weekends
 ################################################################################
@@ -129,7 +160,6 @@ plot(step_day$interval, step_day$steps, type="l", main="Average Steps per 5 minu
      xlab="5 Minute Interval", ylab = "Ave Steps per Day")
 lines(step_end$interval, step_end$steps, col="red")
 legend("topright", legend=c("Ave Steps Weekdays","Ave Steps Weekends" ), col=c("black","red"), lty=1)
-
-
-
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)
